@@ -20,7 +20,7 @@ for chunk_index in range(s.chunks_count):
             break
 
         if rw.cv[i + 1]:
-            cv2.line(img, (rw.xv[i], rw.yv[i]), (rw.xv[i+1], rw.yv[i+1]), (blue, green, red), 16)
+            cv2.line(img, (rw.xv[i], rw.yv[i]), (rw.xv[i+1], rw.yv[i+1]), (blue, green, red), 1)
 
         cv2.imshow("Frame", img)
 
