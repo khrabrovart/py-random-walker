@@ -5,8 +5,19 @@ from random import choice
 
 class RandomWalk():
     def __init__(self, s):
-        self.xv = [numpy.random.randint(0, s.window_width)]
-        self.yv = [numpy.random.randint(0, s.window_height)]
+        start_x = numpy.random.randint(0, s.window_width)
+        start_y = numpy.random.randint(0, s.window_height)
+
+        start_x_shift = start_x % s.chunk_offset
+        if start_x_shift != 0:
+            start_x += s.chunk_offset - start_x_shift
+
+        start_y_shift = start_y % s.chunk_offset
+        if start_y_shift != 0:
+            start_y += s.chunk_offset - start_y_shift
+
+        self.xv = [start_x]
+        self.yv = [start_y]
         self.cv = [False]
 
     def fill(self, s):
