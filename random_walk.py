@@ -1,9 +1,11 @@
+"""Main functional module"""
+
+from random import choice
 import numpy
 
-from settings import Settings
-from random import choice
-
 class RandomWalk():
+    """Random walk class"""
+
     def __init__(self, s):
         start_x = numpy.random.randint(0, s.window_width)
         start_y = numpy.random.randint(0, s.window_height)
@@ -21,8 +23,6 @@ class RandomWalk():
         self.cv = [False]
 
     def fill(self, s):
-        last_step_direction = 0
-
         while len(self.xv) < s.chunk_size:
             direction = choice([0, 1, 2, 3])
             distance = numpy.random.choice(s.distance_values, p = s.distance_weights)
@@ -43,5 +43,3 @@ class RandomWalk():
                 self.xv.append(x)
                 self.yv.append(y)
                 self.cv.append(distance <= s.distance_vis_threshold)
-
-                last_step_direction = direction
