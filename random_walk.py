@@ -12,7 +12,7 @@ class RandomWalk():
         self.yv = [int(start_y)]
         self.cv = [False]
 
-    def check_step(self, x, y, s):
+    def check_step_in_shape(self, x, y, s):
         center_x = s.window_width / 2
         center_y = s.window_height / 2
 
@@ -29,7 +29,10 @@ class RandomWalk():
 
         return in_circles or in_lines or in_rect
 
-    def fill(self, s):
+    def check_step_in_bg(self, x, y, s):
+        return not self.check_step_in_shape(x, y, s) and x >= 0 and x <= s.window_width and y >= 0 and y <= s.window_height
+
+    def fill(self, s, is_shape):
         while len(self.xv) <= s.chunk_size:
             direction = choice([0, 1, 2, 3])
             distance = numpy.random.choice(s.distance_values, p = s.distance_weights)
@@ -46,9 +49,12 @@ class RandomWalk():
             elif direction == 3:
                 x -= distance
 
-            if self.check_step(x, y, s):
-                if len(self.xv) % 5000 == 0: 
-                    print("Filled: " + str(len(self.xv)))
+            if is_shape:
+                if self.check_step_in_shape(x, y, s):
+                    self.xv.append(x)
+                    self.yv.append(y)
+                    self.cv.append(distance <= s.distance_vis_threshold)
+            elif self.check_step_in_bg(x, y, s):
                 self.xv.append(x)
                 self.yv.append(y)
-                self.cv.append(distance <= s.distance_vis_threshold)
+                self.cv.append(True)

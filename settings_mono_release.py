@@ -6,7 +6,7 @@ class Settings():
         self.window_height = 800
 
         self.chunk_size = 1500
-        self.chunks_count = 75
+        self.chunks_count = 100
 
         self.drawing_speed = 2
         self.drawing_fps = 1000
